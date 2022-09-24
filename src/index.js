@@ -1,17 +1,20 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
+const loadText = document.querySelector('.loading-text')
+const bg = document.querySelector(".bg");
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
-root.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>
-);
+let load = 0;
+let int = setInterval(blurring, 30);
+function blurring ()  {
+    load++
 
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();
+    if (load > 99) {
+        clearInterval(int)
+    }
+    loadText.innerText = `${load}%`;
+    loadText.style.opacity=scale(load,0,100,1,0)
+    bg.style.filter=`blur(${scale(load,0,100,30,0)}px)`
+}
+
+const scale = (num, in_min, in_max, out_min, out_max) => {
+    return ((num-in_min)*(out_max-out_min))/(in_max-in_min)+out_min
+}
+// function for mapping one set of numbers in range to another set of numbers in range
